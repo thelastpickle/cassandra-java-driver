@@ -1,5 +1,10 @@
 ## Changelog
 
+### 3.3.0 (in progress)
+
+- [improvement] JAVA-1431: Improve error handling during pool initialization.
+
+
 ### 3.2.0
 
 - [new feature] JAVA-1347: Add support for duration type.

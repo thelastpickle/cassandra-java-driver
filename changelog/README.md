@@ -1,5 +1,10 @@
 ## Changelog
 
+### 3.2.1 (in progress)
+
+- [improvement] JAVA-1203: Upgrade Metrics to allow usage in OSGi.
+
+
 ### 3.2.0
 
 - [new feature] JAVA-1347: Add support for duration type.

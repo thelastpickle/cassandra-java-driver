@@ -1,5 +1,10 @@
 ## Changelog
 
+### 3.2.1 (in progress)
+
+- [bug] JAVA-1407: KeyspaceMetadata exportAsString should export user types in topological sort order.
+
+
 ### 3.2.0
 
 - [new feature] JAVA-1347: Add support for duration type.

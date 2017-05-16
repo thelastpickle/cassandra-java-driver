@@ -96,7 +96,10 @@ public class SpeculativeExecutionTest {
 
         assertThat(row.getString("result")).isEqualTo("result1");
         assertThat(errors.getSpeculativeExecutions().getCount()).isEqualTo(execStartCount);
-        assertThat(rs.getExecutionInfo().getQueriedHost()).isEqualTo(host1);
+        ExecutionInfo executionInfo = rs.getExecutionInfo();
+        assertThat(executionInfo.getTriedHosts()).containsOnly(host1);
+        assertThat(executionInfo.getQueriedHost()).isEqualTo(host1);
+        assertThat(executionInfo.getSpeculativeExecution()).isEqualTo(1);
     }
 
     @Test(groups = "short")
@@ -128,7 +131,10 @@ public class SpeculativeExecutionTest {
         assertThat(row.getString("result")).isEqualTo("result1");
         assertThat(errors.getSpeculativeExecutions().getCount()).isEqualTo(execStartCount);
         assertThat(errors.getRetriesOnReadTimeout().getCount()).isEqualTo(retriesStartCount + 1);
-        assertThat(rs.getExecutionInfo().getQueriedHost()).isEqualTo(host1);
+        ExecutionInfo executionInfo = rs.getExecutionInfo();
+        assertThat(executionInfo.getTriedHosts()).containsOnly(host1);
+        assertThat(executionInfo.getQueriedHost()).isEqualTo(host1);
+        assertThat(executionInfo.getSpeculativeExecution()).isEqualTo(1);
     }
 
     @Test(groups = "short")
@@ -151,7 +157,11 @@ public class SpeculativeExecutionTest {
 
         assertThat(row.getString("result")).isEqualTo("result2");
         assertThat(errors.getSpeculativeExecutions().getCount()).isEqualTo(execStartCount + 1);
-        assertThat(rs.getExecutionInfo().getQueriedHost()).isEqualTo(host2);
+        ExecutionInfo executionInfo = rs.getExecutionInfo();
+        // triedHosts does not contain host1 because the request to it had not completed yet
+        assertThat(executionInfo.getTriedHosts()).containsOnly(host2);
+        assertThat(executionInfo.getQueriedHost()).isEqualTo(host2);
+        assertThat(executionInfo.getSpeculativeExecution()).isEqualTo(2);
     }
 
     @Test(groups = "short")
@@ -186,7 +196,10 @@ public class SpeculativeExecutionTest {
 
         assertThat(row.getString("result")).isEqualTo("result3");
         assertThat(errors.getSpeculativeExecutions().getCount()).isEqualTo(execStartCount + 1);
-        assertThat(rs.getExecutionInfo().getQueriedHost()).isEqualTo(host3);
+        ExecutionInfo executionInfo = rs.getExecutionInfo();
+        assertThat(executionInfo.getTriedHosts()).containsOnly(host1, host2, host3);
+        assertThat(executionInfo.getQueriedHost()).isEqualTo(host3);
+        assertThat(executionInfo.getSpeculativeExecution()).isEqualTo(1);
     }
 
     /**

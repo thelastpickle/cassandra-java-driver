@@ -11,6 +11,7 @@
 - [improvement] JAVA-1428: Upgrade logback and jackson dependencies.
 - [documentation] JAVA-1463: Revisit speculative execution docs.
 - [documentation] JAVA-1466: Revisit timestamp docs.
+- [improvement] JAVA-1443: Add groupBy method to Select statement.
 
 
 ### 3.2.0

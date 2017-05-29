@@ -51,7 +51,7 @@
             </binaries>
         </moduleSet>
 
-        <!-- dependencies of module cassandra-driver-mapping -->
+        <!-- dependencies of module cassandra:cassandra-driver-extras -->
         <moduleSet>
             <useAllReactorProjects>true</useAllReactorProjects>
             <includes>
@@ -61,12 +61,15 @@
                 <unpack>false</unpack>
                 <dependencySets>
                     <dependencySet>
-                        <outputDirectory>lib/mapping</outputDirectory>
+                        <outputDirectory>lib/extras</outputDirectory>
                         <excludes>
                             <!-- reactor projects -->
                             <exclude>com.datastax.cassandra:cassandra-driver-core</exclude>
                             <exclude>com.datastax.cassandra:cassandra-driver-mapping</exclude>
                             <exclude>com.datastax.cassandra:cassandra-driver-extras</exclude>
+                            <!-- already included in lib/core -->
+                            <exclude>com.google.guava:guava</exclude>
+                            <exclude>org.slf4j:slf4j-api</exclude>
                         </excludes>
                         <useTransitiveFiltering>true</useTransitiveFiltering>
                     </dependencySet>

@@ -70,7 +70,7 @@ class RequestHandler {
     private final long startTime;
 
     private final AtomicBoolean isDone = new AtomicBoolean();
-    private final AtomicInteger executionCount = new AtomicInteger();
+    private final AtomicInteger executionIndex = new AtomicInteger();
 
     public RequestHandler(SessionManager manager, Callback callback, Statement statement) {
         this.id = Long.toString(System.identityHashCode(this));
@@ -111,7 +111,7 @@ class RequestHandler {
             return;
 
         Message.Request request = callback.request();
-        int position = executionCount.incrementAndGet();
+        int position = executionIndex.getAndIncrement();
 
         SpeculativeExecution execution = new SpeculativeExecution(request, position);
         runningExecutions.add(execution);
@@ -168,8 +168,9 @@ class RequestHandler {
                 timerContext.stop();
 
             ExecutionInfo info;
+            int speculativeExecutions = executionIndex.get() - 1;
             // Avoid creating a new instance if we can reuse the host's default one
-            if (execution.position == 1 && triedHosts == null && execution.retryConsistencyLevel == null
+            if (execution.position == 0 && speculativeExecutions == 0 && triedHosts == null && execution.retryConsistencyLevel == null
                     && response.getCustomPayload() == null) {
                 info = execution.current.defaultExecutionInfo;
             } else {
@@ -180,7 +181,7 @@ class RequestHandler {
                     hosts = triedHosts;
                     hosts.add(execution.current);
                 }
-                info = new ExecutionInfo(execution.position, hosts, execution.retryConsistencyLevel, response.getCustomPayload());
+                info = new ExecutionInfo(speculativeExecutions, execution.position, hosts, execution.retryConsistencyLevel, response.getCustomPayload());
             }
             callback.onSet(connection, response, info, statement, System.nanoTime() - startTime);
         } catch (Exception e) {

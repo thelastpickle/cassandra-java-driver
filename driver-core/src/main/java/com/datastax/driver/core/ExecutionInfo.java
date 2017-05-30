@@ -29,7 +29,8 @@ import java.util.Map;
  * Basic information on the execution of a query.
  */
 public class ExecutionInfo {
-    private final int speculativeExecution;
+    private final int speculativeExecutions;
+    private final int successfulExecutionIndex;
     private final List<Host> triedHosts;
     private final ConsistencyLevel achievedConsistency;
     private final QueryTrace trace;
@@ -41,8 +42,9 @@ public class ExecutionInfo {
     private final List<String> warnings;
     private final Map<String, ByteBuffer> incomingPayload;
 
-    private ExecutionInfo(int speculativeExecution, List<Host> triedHosts, ConsistencyLevel achievedConsistency, QueryTrace trace, ByteBuffer pagingState, ProtocolVersion protocolVersion, CodecRegistry codecRegistry, Statement statement, boolean schemaAgreement, List<String> warnings, Map<String, ByteBuffer> incomingPayload) {
-        this.speculativeExecution = speculativeExecution;
+    private ExecutionInfo(int speculativeExecutions, int successfulExecutionIndex, List<Host> triedHosts, ConsistencyLevel achievedConsistency, QueryTrace trace, ByteBuffer pagingState, ProtocolVersion protocolVersion, CodecRegistry codecRegistry, Statement statement, boolean schemaAgreement, List<String> warnings, Map<String, ByteBuffer> incomingPayload) {
+        this.speculativeExecutions = speculativeExecutions;
+        this.successfulExecutionIndex = successfulExecutionIndex;
         this.triedHosts = triedHosts;
         this.achievedConsistency = achievedConsistency;
         this.trace = trace;
@@ -56,15 +58,15 @@ public class ExecutionInfo {
     }
 
     ExecutionInfo(Host singleHost) {
-        this(1, ImmutableList.of(singleHost), null, null, null, null, null, null, true, Collections.<String>emptyList(), null);
+        this(0, 0, ImmutableList.of(singleHost), null, null, null, null, null, null, true, Collections.<String>emptyList(), null);
     }
 
-    public ExecutionInfo(int speculativeExecution, List<Host> triedHosts, ConsistencyLevel achievedConsistency, Map<String, ByteBuffer> customPayload) {
-        this(speculativeExecution, triedHosts, achievedConsistency, null, null, null, null, null, false, null, customPayload);
+    public ExecutionInfo(int speculativeExecutions, int successfulExecutionIndex, List<Host> triedHosts, ConsistencyLevel achievedConsistency, Map<String, ByteBuffer> customPayload) {
+        this(speculativeExecutions, successfulExecutionIndex, triedHosts, achievedConsistency, null, null, null, null, null, false, null, customPayload);
     }
 
     ExecutionInfo with(QueryTrace newTrace, List<String> newWarnings, ByteBuffer newPagingState, Statement newStatement, ProtocolVersion protocolVersion, CodecRegistry codecRegistry) {
-        return new ExecutionInfo(speculativeExecution, triedHosts, achievedConsistency,
+        return new ExecutionInfo(speculativeExecutions, successfulExecutionIndex, triedHosts, achievedConsistency,
                 newTrace,
                 newPagingState, protocolVersion, codecRegistry,
                 newStatement,
@@ -111,19 +113,30 @@ public class ExecutionInfo {
     }
 
     /**
-     * The speculative execution that completed this query.
+     * The number of speculative executions that were started for this query.
      * <p>
-     * 1 represents the initial, regular execution of the query, 2 represents the first speculative
-     * execution, etc.
-     * <p>
-     * Note that this is different from the number of <em>started</em> executions. For example, if
-     * one speculative execution was triggered, but the initial execution eventually completed
-     * first, this will be 1.
+     * This does not include the initial, normal execution of the query. Therefore, if speculative
+     * executions are disabled, this will always be 0. If they are enabled and one speculative
+     * execution was triggered in addition to the initial execution, this will be 1, etc.
      *
+     * @see #getSuccessfulExecutionIndex()
      * @see Cluster.Builder#withSpeculativeExecutionPolicy(com.datastax.driver.core.policies.SpeculativeExecutionPolicy)
      */
-    public int getSpeculativeExecution() {
-        return speculativeExecution;
+    public int getSpeculativeExecutions() {
+        return speculativeExecutions;
+    }
+
+    /**
+     * The index of the execution that completed this query.
+     * <p>
+     * 0 represents the initial, normal execution of the query, 1 represents the first speculative
+     * execution, etc.
+     *
+     * @see #getSpeculativeExecutions()
+     * @see Cluster.Builder#withSpeculativeExecutionPolicy(com.datastax.driver.core.policies.SpeculativeExecutionPolicy)
+     */
+    public int getSuccessfulExecutionIndex() {
+        return successfulExecutionIndex;
     }
 
     /**

@@ -88,7 +88,10 @@ public class ExecutionInfo {
      * {@link com.datastax.driver.core.policies.RetryPolicy} may retry the
      * query on the same host, so the same host might appear twice.</li>
      * <li>if {@link com.datastax.driver.core.policies.SpeculativeExecutionPolicy speculative executions}
-     * are enabled, other hosts might have been tried speculatively as well.</li>
+     * are enabled, this will also contain hosts that were tried by other executions (however, note that
+     * this only contains hosts for which a response was received; if an execution is waiting for a response
+     * from a host and another execution completes the request in the meantime, then the host of the first
+     * execution will not be in that list).</li>
      * </ul>
      * <p/>
      * If you are only interested in fetching the final (and often only) node

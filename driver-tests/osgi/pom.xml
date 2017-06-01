@@ -29,8 +29,6 @@
     <name>DataStax Java Driver for Apache Cassandra Tests - OSGi</name>
     <description>A test for the DataStax Java Driver in an OSGi container.</description>
 
-    <url>https://github.com/datastax/java-driver/driver-tests/osgi</url>
-
     <dependencies>
 
         <dependency>

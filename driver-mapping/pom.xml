@@ -30,8 +30,6 @@
     <name>DataStax Java Driver for Apache Cassandra - Object Mapping</name>
     <description>Object mapper for the DataStax CQL Java Driver.</description>
 
-    <url>https://github.com/datastax/java-driver/driver-mapping</url>
-
     <dependencies>
 
         <dependency>

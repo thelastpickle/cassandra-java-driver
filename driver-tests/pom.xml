@@ -30,8 +30,6 @@
     <name>DataStax Java Driver for Apache Cassandra Tests</name>
     <description>Tests for the DataStax Java Driver for Apache Cassandra.</description>
 
-    <url>https://github.com/datastax/java-driver/driver-tests</url>
-
     <modules>
         <module>stress</module>
         <module>osgi</module>

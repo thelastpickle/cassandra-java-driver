@@ -32,8 +32,6 @@
         (CQL3) and Cassandra's binary protocol.
     </description>
 
-    <url>https://github.com/datastax/java-driver/driver-core</url>
-
     <dependencies>
 
         <dependency>

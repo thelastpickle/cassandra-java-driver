@@ -29,8 +29,6 @@
     <name>DataStax Java Driver for Apache Cassandra Tests - Stress</name>
     <description>A stress test example for DataStax Java Driver for Apache Cassandra.</description>
 
-    <url>https://github.com/datastax/java-driver/driver-tests/stress</url>
-
     <dependencies>
 
         <dependency>

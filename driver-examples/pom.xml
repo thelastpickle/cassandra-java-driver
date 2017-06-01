@@ -29,8 +29,6 @@
     <name>DataStax Java Driver for Apache Cassandra - Examples</name>
     <description>A collection of examples to demonstrate DataStax Java Driver for Apache Cassandra.</description>
 
-    <url>https://github.com/datastax/java-driver/driver-examples</url>
-
     <dependencies>
 
         <!-- driver dependencies -->

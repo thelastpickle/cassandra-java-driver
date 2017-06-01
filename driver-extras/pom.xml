@@ -30,8 +30,6 @@
     <name>DataStax Java Driver for Apache Cassandra - Extras</name>
     <description>Extended functionality for the Java driver.</description>
 
-    <url>https://github.com/datastax/java-driver/driver-extras</url>
-
     <dependencies>
 
         <dependency>

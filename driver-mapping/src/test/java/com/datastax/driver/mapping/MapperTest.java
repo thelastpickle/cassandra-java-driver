@@ -34,6 +34,8 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
+import static com.datastax.driver.core.ConsistencyLevel.ONE;
+import static com.datastax.driver.mapping.Mapper.Option.consistencyLevel;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.fail;
 import static org.testng.Assert.assertEquals;
@@ -417,7 +419,7 @@ public class MapperTest extends CCMTestsSupport {
         executeFunctionAndTestForException(u, mapper, new Function<Void, Thread>() {
             @Override
             public Thread apply(Void v) {
-                mapper.save(u);
+                mapper.save(u, consistencyLevel(ONE));
                 return Thread.currentThread();
             }
         });
@@ -433,7 +435,7 @@ public class MapperTest extends CCMTestsSupport {
         executeFunctionAndTestForException(u, mapper, new Function<Void, Thread>() {
             @Override
             public Thread apply(Void v) {
-                mapper.saveQuery(u);
+                mapper.saveQuery(u, consistencyLevel(ONE));
                 return Thread.currentThread();
             }
         });
@@ -448,7 +450,7 @@ public class MapperTest extends CCMTestsSupport {
         executeFunctionAndTestForException(u, mapper, new Function<Void, Thread>() {
             @Override
             public Thread apply(Void v) {
-                mapper.delete(u);
+                mapper.delete(u, consistencyLevel(ONE));
                 return Thread.currentThread();
             }
         });
@@ -464,7 +466,7 @@ public class MapperTest extends CCMTestsSupport {
         executeFunctionAndTestForException(u, mapper, new Function<Void, Thread>() {
             @Override
             public Thread apply(Void v) {
-                mapper.deleteQuery(u);
+                mapper.deleteQuery(u, consistencyLevel(ONE));
                 return Thread.currentThread();
             }
         });

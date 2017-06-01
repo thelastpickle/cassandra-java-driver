@@ -30,8 +30,6 @@
     <packaging>jar</packaging>
     <name>DataStax Java Driver for Apache Cassandra - Binary distribution</name>
 
-    <url>https://github.com/datastax/java-driver/driver-dist</url>
-
     <!-- These dependencies are only here to ensure proper build order and proper inclusion of binaries in the final tarball -->
     <dependencies>
 

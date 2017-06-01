@@ -85,190 +85,6 @@
         <javadoc.opts />
     </properties>
 
-    <profiles>
-
-        <profile>
-            <id>short</id>
-            <properties>
-                <test.groups>unit,short</test.groups>
-                <test.osgi.skip>false</test.osgi.skip>
-            </properties>
-        </profile>
-
-        <profile>
-            <id>long</id>
-            <properties>
-                <test.groups>unit,short,long</test.groups>
-                <test.osgi.skip>false</test.osgi.skip>
-            </properties>
-        </profile>
-
-        <profile>
-            <id>duration</id>
-            <properties>
-                <test.groups>unit,short,long,duration</test.groups>
-                <test.osgi.skip>false</test.osgi.skip>
-            </properties>
-        </profile>
-
-        <profile>
-            <id>doc</id>
-            <properties>
-                <test.groups>unit,doc</test.groups>
-            </properties>
-        </profile>
-
-        <!-- default profile settings for 'isolated' test group, will skip tests unless overridden in child module. -->
-        <profile>
-            <id>isolated</id>
-            <properties>
-                <test.groups>isolated</test.groups>
-            </properties>
-            <build>
-                <plugins>
-                    <plugin>
-                        <artifactId>maven-surefire-plugin</artifactId>
-                        <!-- do not upgrade until https://issues.apache.org/jira/browse/SUREFIRE-1302 is fixed -->
-                        <version>2.18</version>
-                        <configuration>
-                            <skip>true</skip>
-                            <forkCount>1</forkCount>
-                            <reuseForks>false</reuseForks>
-                            <reportNameSuffix>isolated</reportNameSuffix>
-                            <!-- This requires includes to be explicitly specified by implementing classes.
-                                 This is needed to prevent creating a JVM fork for each test, even those that don't
-                                 have the isolated group. -->
-                            <includes />
-                        </configuration>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-
-        <!--
-        Profile activated when releasing. See:
-        http://central.sonatype.org/pages/apache-maven.html
-        -->
-        <profile>
-            <id>release</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <artifactId>maven-enforcer-plugin</artifactId>
-                        <version>1.4.1</version>
-                        <executions>
-                            <execution>
-                                <id>enforce-java8</id>
-                                <goals>
-                                    <goal>enforce</goal>
-                                </goals>
-                                <configuration>
-                                    <rules>
-                                        <requireJavaVersion>
-                                            <version>1.8</version>
-                                        </requireJavaVersion>
-                                    </rules>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-                    <plugin>
-                        <artifactId>maven-source-plugin</artifactId>
-                        <version>3.0.1</version>
-                        <executions>
-                            <execution>
-                                <id>attach-sources</id>
-                                <goals>
-                                    <goal>jar-no-fork</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                    <plugin>
-                        <artifactId>maven-javadoc-plugin</artifactId>
-                        <version>2.10.4</version>
-                        <executions>
-                            <execution>
-                                <id>attach-javadocs</id>
-                                <goals>
-                                    <goal>jar</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                    <plugin>
-                        <artifactId>maven-gpg-plugin</artifactId>
-                        <version>1.5</version>
-                        <executions>
-                            <execution>
-                                <id>sign-artifacts</id>
-                                <phase>verify</phase>
-                                <goals>
-                                    <goal>sign</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                    <plugin>
-                        <groupId>org.sonatype.plugins</groupId>
-                        <artifactId>nexus-staging-maven-plugin</artifactId>
-                        <version>1.6.7</version>
-                        <extensions>true</extensions>
-                        <configuration>
-                            <serverId>ossrh</serverId>
-                            <nexusUrl>https://oss.sonatype.org/</nexusUrl>
-                            <autoReleaseAfterClose>false</autoReleaseAfterClose>
-                            <skipLocalStaging>true</skipLocalStaging>
-                        </configuration>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-
-        <profile>
-            <id>modern-jdks</id>
-            <activation>
-                <jdk>[1.8,)</jdk>
-            </activation>
-            <properties>
-                <javadoc.opts>-Xdoclint:none</javadoc.opts>
-            </properties>
-        </profile>
-
-        <!--
-        This profile excludes all JDK 8 dependent tests from being
-        run with legacy JDKs (6 or 7).
-        It is automatically activated when a legacy JDK is in use.
-        Note that running CCM tests with a legacy JDK require
-        setting two system properties: ccm.java.home and ccm.path.
-        -->
-        <profile>
-            <id>legacy-jdks</id>
-            <activation>
-                <jdk>[,1.8)</jdk>
-            </activation>
-            <build>
-                <plugins>
-                    <plugin>
-                        <!-- exclude Jdk* test classes from being run
-                        This is needed in event that code was built with JDK8
-                        and tests are ran with JDK6 or 7. -->
-                        <artifactId>maven-surefire-plugin</artifactId>
-                        <!-- do not upgrade until https://issues.apache.org/jira/browse/SUREFIRE-1302 is fixed -->
-                        <version>2.18</version>
-                        <configuration>
-                            <excludes>
-                                <exclude>**/jdk8/*.java</exclude>
-                                <exclude>**/Jdk8*.java</exclude>
-                            </excludes>
-                        </configuration>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-
-    </profiles>
-
     <dependencyManagement>
 
         <dependencies>
@@ -1048,6 +864,190 @@ limitations under the License.
         </plugins>
 
     </build>
+
+    <profiles>
+
+        <profile>
+            <id>short</id>
+            <properties>
+                <test.groups>unit,short</test.groups>
+                <test.osgi.skip>false</test.osgi.skip>
+            </properties>
+        </profile>
+
+        <profile>
+            <id>long</id>
+            <properties>
+                <test.groups>unit,short,long</test.groups>
+                <test.osgi.skip>false</test.osgi.skip>
+            </properties>
+        </profile>
+
+        <profile>
+            <id>duration</id>
+            <properties>
+                <test.groups>unit,short,long,duration</test.groups>
+                <test.osgi.skip>false</test.osgi.skip>
+            </properties>
+        </profile>
+
+        <profile>
+            <id>doc</id>
+            <properties>
+                <test.groups>unit,doc</test.groups>
+            </properties>
+        </profile>
+
+        <!-- default profile settings for 'isolated' test group, will skip tests unless overridden in child module. -->
+        <profile>
+            <id>isolated</id>
+            <properties>
+                <test.groups>isolated</test.groups>
+            </properties>
+            <build>
+                <plugins>
+                    <plugin>
+                        <artifactId>maven-surefire-plugin</artifactId>
+                        <!-- do not upgrade until https://issues.apache.org/jira/browse/SUREFIRE-1302 is fixed -->
+                        <version>2.18</version>
+                        <configuration>
+                            <skip>true</skip>
+                            <forkCount>1</forkCount>
+                            <reuseForks>false</reuseForks>
+                            <reportNameSuffix>isolated</reportNameSuffix>
+                            <!-- This requires includes to be explicitly specified by implementing classes.
+                                 This is needed to prevent creating a JVM fork for each test, even those that don't
+                                 have the isolated group. -->
+                            <includes/>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+        <!--
+        Profile activated when releasing. See:
+        http://central.sonatype.org/pages/apache-maven.html
+        -->
+        <profile>
+            <id>release</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <artifactId>maven-enforcer-plugin</artifactId>
+                        <version>1.4.1</version>
+                        <executions>
+                            <execution>
+                                <id>enforce-java8</id>
+                                <goals>
+                                    <goal>enforce</goal>
+                                </goals>
+                                <configuration>
+                                    <rules>
+                                        <requireJavaVersion>
+                                            <version>1.8</version>
+                                        </requireJavaVersion>
+                                    </rules>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <artifactId>maven-source-plugin</artifactId>
+                        <version>3.0.1</version>
+                        <executions>
+                            <execution>
+                                <id>attach-sources</id>
+                                <goals>
+                                    <goal>jar-no-fork</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <artifactId>maven-javadoc-plugin</artifactId>
+                        <version>2.10.4</version>
+                        <executions>
+                            <execution>
+                                <id>attach-javadocs</id>
+                                <goals>
+                                    <goal>jar</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <artifactId>maven-gpg-plugin</artifactId>
+                        <version>1.5</version>
+                        <executions>
+                            <execution>
+                                <id>sign-artifacts</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>sign</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.sonatype.plugins</groupId>
+                        <artifactId>nexus-staging-maven-plugin</artifactId>
+                        <version>1.6.7</version>
+                        <extensions>true</extensions>
+                        <configuration>
+                            <serverId>ossrh</serverId>
+                            <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+                            <autoReleaseAfterClose>false</autoReleaseAfterClose>
+                            <skipLocalStaging>true</skipLocalStaging>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+        <profile>
+            <id>modern-jdks</id>
+            <activation>
+                <jdk>[1.8,)</jdk>
+            </activation>
+            <properties>
+                <javadoc.opts>-Xdoclint:none</javadoc.opts>
+            </properties>
+        </profile>
+
+        <!--
+        This profile excludes all JDK 8 dependent tests from being
+        run with legacy JDKs (6 or 7).
+        It is automatically activated when a legacy JDK is in use.
+        Note that running CCM tests with a legacy JDK require
+        setting two system properties: ccm.java.home and ccm.path.
+        -->
+        <profile>
+            <id>legacy-jdks</id>
+            <activation>
+                <jdk>[,1.8)</jdk>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <!-- exclude Jdk* test classes from being run
+                        This is needed in event that code was built with JDK8
+                        and tests are ran with JDK6 or 7. -->
+                        <artifactId>maven-surefire-plugin</artifactId>
+                        <!-- do not upgrade until https://issues.apache.org/jira/browse/SUREFIRE-1302 is fixed -->
+                        <version>2.18</version>
+                        <configuration>
+                            <excludes>
+                                <exclude>**/jdk8/*.java</exclude>
+                                <exclude>**/Jdk8*.java</exclude>
+                            </excludes>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+    </profiles>
 
     <distributionManagement>
         <repository>

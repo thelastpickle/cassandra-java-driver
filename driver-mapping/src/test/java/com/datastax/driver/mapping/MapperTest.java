@@ -376,13 +376,14 @@ public class MapperTest extends CCMTestsSupport {
         assertTrue(postAccessor.getAllAsync(u1.getUserId()).get().isExhausted());
     }
 
-    @Test(groups = "short")
     /**
      * Iterates over all the places where we check for io thread re-use and ensures that we throw
-     * the appropriate exception when io thread re-use is attempted
+     * the appropriate exception when io thread re-use is attempted.
+     *
      * @jira_ticket JAVA-1458
      * @test_category object_mapper
      */
+    @Test(groups = "short")
     public void should_fail_when_io_thread_used() throws Exception {
         MappingManager manager = new MappingManager(session());
         final Mapper<User> mapper = manager.mapper(User.class);
@@ -416,7 +417,7 @@ public class MapperTest extends CCMTestsSupport {
         executeFunctionAndTestForException(u, mapper, new Function<Void, Thread>() {
             @Override
             public Thread apply(Void v) {
-                mapper.save(u, null);
+                mapper.save(u);
                 return Thread.currentThread();
             }
         });
@@ -432,7 +433,7 @@ public class MapperTest extends CCMTestsSupport {
         executeFunctionAndTestForException(u, mapper, new Function<Void, Thread>() {
             @Override
             public Thread apply(Void v) {
-                mapper.saveQuery(u, null);
+                mapper.saveQuery(u);
                 return Thread.currentThread();
             }
         });
@@ -447,7 +448,7 @@ public class MapperTest extends CCMTestsSupport {
         executeFunctionAndTestForException(u, mapper, new Function<Void, Thread>() {
             @Override
             public Thread apply(Void v) {
-                mapper.delete(u, null);
+                mapper.delete(u);
                 return Thread.currentThread();
             }
         });
@@ -463,7 +464,7 @@ public class MapperTest extends CCMTestsSupport {
         executeFunctionAndTestForException(u, mapper, new Function<Void, Thread>() {
             @Override
             public Thread apply(Void v) {
-                mapper.deleteQuery(u, null);
+                mapper.deleteQuery(u);
                 return Thread.currentThread();
             }
         });
@@ -476,30 +477,25 @@ public class MapperTest extends CCMTestsSupport {
         });
     }
 
-    private void executeFunctionAndTestForException(User u, Mapper mapper, Function<Void, Thread> f2) {
+    private void executeFunctionAndTestForException(User u, Mapper<User> mapper, Function<Void, Thread> f2) {
         ListenableFuture<Void> f = mapper.saveAsync(u);
         ListenableFuture<Thread> toTest = Futures.transform(f, f2);
-        assertThat(isFailed(toTest, IllegalStateException.class, "Detected a synchronous call on an I/O thread")).isTrue();
-    }
-
-    private boolean isFailed(ListenableFuture<Thread> future, Class<?> expectedException, String expectedMessage) {
         try {
-            Thread executedThread = future.get();
-            if (executedThread != Thread.currentThread()) {
-                fail("Expected a failed future, callback was executed on " + executedThread);
-            } else {
+            Thread executedThread = toTest.get();
+            if (executedThread == Thread.currentThread()) {
                 // Callback was invoked on the same thread, which indicates that the future completed
                 // before the transform callback was registered. Try again to produce case where callback
                 // is called on io thread.
                 logger.warn("Future completed before transform callback registered, will try again.");
+                executeFunctionAndTestForException(u, mapper, f2);
+            } else {
+                fail("Expected a failed future, callback was executed on " + executedThread);
             }
         } catch (Exception e) {
             assertThat(Throwables.getRootCause(e))
-                    .isInstanceOf(expectedException)
-                    .hasMessageContaining(expectedMessage);
-            return true;
+                    .isInstanceOf(IllegalStateException.class)
+                    .hasMessageContaining("Detected a synchronous call on an I/O thread");
         }
-        return false;
     }
 
     @Test(groups = "short")

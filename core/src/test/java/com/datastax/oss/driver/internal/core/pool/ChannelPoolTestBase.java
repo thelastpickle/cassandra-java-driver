@@ -26,6 +26,7 @@ import com.datastax.oss.driver.internal.core.context.EventBus;
 import com.datastax.oss.driver.internal.core.context.InternalDriverContext;
 import com.datastax.oss.driver.internal.core.context.NettyOptions;
 import com.datastax.oss.driver.internal.core.metadata.DefaultNode;
+import com.datastax.oss.driver.internal.core.metrics.MetricUpdaterFactory;
 import com.google.common.util.concurrent.Uninterruptibles;
 import io.netty.channel.DefaultChannelPromise;
 import io.netty.channel.DefaultEventLoopGroup;
@@ -48,7 +49,6 @@ import static org.mockito.ArgumentMatchers.any;
 abstract class ChannelPoolTestBase {
 
   static final InetSocketAddress ADDRESS = new InetSocketAddress("localhost", 9042);
-  static final Node NODE = new DefaultNode(ADDRESS);
 
   @Mock InternalDriverContext context;
   @Mock private DriverConfig config;
@@ -57,6 +57,8 @@ abstract class ChannelPoolTestBase {
   @Mock ReconnectionPolicy.ReconnectionSchedule reconnectionSchedule;
   @Mock private NettyOptions nettyOptions;
   @Mock ChannelFactory channelFactory;
+  @Mock protected MetricUpdaterFactory metricUpdaterFactory;
+  Node node;
   EventBus eventBus;
   private DefaultEventLoopGroup adminEventLoopGroup;
 
@@ -79,6 +81,9 @@ abstract class ChannelPoolTestBase {
     // By default, set a large reconnection delay. Tests that care about reconnection will override
     // it.
     Mockito.when(reconnectionSchedule.nextDelay()).thenReturn(Duration.ofDays(1));
+
+    Mockito.when(context.metricUpdaterFactory()).thenReturn(metricUpdaterFactory);
+    node = new DefaultNode(ADDRESS, context);
   }
 
   @After

@@ -141,6 +141,11 @@ public class ChannelPool implements AsyncAutoCloseable {
     return channels.next();
   }
 
+  /** @return the number of active channels in the pool. */
+  public int size() {
+    return channels.size();
+  }
+
   public int getAvailableIds() {
     return channels.getAvailableIds();
   }

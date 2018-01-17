@@ -108,6 +108,9 @@ public enum CoreDriverOption implements DriverOption {
   TIMESTAMP_GENERATOR_DRIFT_WARNING_INTERVAL(
       "request.timestamp-generator.drift-warning.interval", false),
 
+  METRICS_SESSION_ENABLED("metrics.session.enabled", false),
+  METRICS_NODE_ENABLED("metrics.node.enabled", false),
+
   NETTY_IO_SIZE("netty.io-group.size", false),
   NETTY_IO_SHUTDOWN_QUIET_PERIOD("netty.io-group.shutdown.quiet-period", false),
   NETTY_IO_SHUTDOWN_TIMEOUT("netty.io-group.shutdown.timeout", false),

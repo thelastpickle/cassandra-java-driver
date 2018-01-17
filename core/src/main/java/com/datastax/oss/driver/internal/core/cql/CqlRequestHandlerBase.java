@@ -26,6 +26,8 @@ import com.datastax.oss.driver.api.core.cql.AsyncResultSet;
 import com.datastax.oss.driver.api.core.cql.ExecutionInfo;
 import com.datastax.oss.driver.api.core.cql.Statement;
 import com.datastax.oss.driver.api.core.metadata.Node;
+import com.datastax.oss.driver.api.core.metrics.CoreNodeMetric;
+import com.datastax.oss.driver.api.core.metrics.CoreSessionMetric;
 import com.datastax.oss.driver.api.core.retry.RetryDecision;
 import com.datastax.oss.driver.api.core.retry.RetryPolicy;
 import com.datastax.oss.driver.api.core.servererrors.BootstrappingException;
@@ -42,6 +44,7 @@ import com.datastax.oss.driver.internal.core.adminrequest.UnexpectedResponseExce
 import com.datastax.oss.driver.internal.core.channel.DriverChannel;
 import com.datastax.oss.driver.internal.core.channel.ResponseCallback;
 import com.datastax.oss.driver.internal.core.context.InternalDriverContext;
+import com.datastax.oss.driver.internal.core.metadata.DefaultNode;
 import com.datastax.oss.driver.internal.core.session.DefaultSession;
 import com.datastax.oss.driver.internal.core.session.RepreparePayload;
 import com.datastax.oss.driver.internal.core.util.Loggers;
@@ -80,6 +83,7 @@ public abstract class CqlRequestHandlerBase {
 
   private static final Logger LOG = LoggerFactory.getLogger(CqlRequestHandlerBase.class);
 
+  private final long startTimeNanos;
   private final String logPrefix;
   private final Statement<?> statement;
   private final DefaultSession session;
@@ -121,6 +125,7 @@ public abstract class CqlRequestHandlerBase {
       InternalDriverContext context,
       String sessionLogPrefix) {
 
+    this.startTimeNanos = System.nanoTime();
     this.logPrefix = sessionLogPrefix + "|" + this.hashCode();
     LOG.debug("[{}] Creating new handler for request {}", logPrefix, statement);
 
@@ -304,6 +309,12 @@ public abstract class CqlRequestHandlerBase {
           Conversions.toResultSet(resultMessage, executionInfo, session, context);
       if (result.complete(resultSet)) {
         cancelScheduledTasks();
+        session
+            .getMetricUpdater()
+            .updateTimer(
+                CoreSessionMetric.cql_requests,
+                System.nanoTime() - startTimeNanos,
+                TimeUnit.NANOSECONDS);
       }
     } catch (Throwable error) {
       setFinalError(error);
@@ -540,10 +551,12 @@ public abstract class CqlRequestHandlerBase {
       switch (decision) {
         case RETRY_SAME:
           recordError(node, error);
+          ((DefaultNode) node).getMetricUpdater().markMeter(CoreNodeMetric.retries);
           sendRequest(node, execution, retryCount + 1);
           break;
         case RETRY_NEXT:
           recordError(node, error);
+          ((DefaultNode) node).getMetricUpdater().markMeter(CoreNodeMetric.retries);
           sendRequest(null, execution, retryCount + 1);
           break;
         case RETHROW:

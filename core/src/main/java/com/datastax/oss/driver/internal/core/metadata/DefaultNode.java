@@ -19,6 +19,8 @@ import com.datastax.oss.driver.api.core.CassandraVersion;
 import com.datastax.oss.driver.api.core.loadbalancing.NodeDistance;
 import com.datastax.oss.driver.api.core.metadata.Node;
 import com.datastax.oss.driver.api.core.metadata.NodeState;
+import com.datastax.oss.driver.internal.core.context.InternalDriverContext;
+import com.datastax.oss.driver.internal.core.metrics.NodeMetricUpdater;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.util.Collections;
@@ -33,6 +35,7 @@ import java.util.Set;
 public class DefaultNode implements Node {
 
   private final InetSocketAddress connectAddress;
+  private final NodeMetricUpdater metricUpdater;
 
   volatile Optional<InetAddress> broadcastAddress;
   volatile Optional<InetAddress> listenAddress;
@@ -50,8 +53,11 @@ public class DefaultNode implements Node {
 
   volatile NodeDistance distance;
 
-  public DefaultNode(InetSocketAddress connectAddress) {
+  public DefaultNode(InetSocketAddress connectAddress, InternalDriverContext context) {
     this.connectAddress = connectAddress;
+    // We leak a reference to a partially constructed object (this), but in practice this won't be a
+    // problem because the node updater only needs the connect address to initialize.
+    this.metricUpdater = context.metricUpdaterFactory().newNodeUpdater(this);
     this.state = NodeState.UNKNOWN;
     this.distance = NodeDistance.IGNORED;
     this.rawTokens = Collections.emptySet();
@@ -110,6 +116,10 @@ public class DefaultNode implements Node {
   @Override
   public NodeDistance getDistance() {
     return distance;
+  }
+
+  public NodeMetricUpdater getMetricUpdater() {
+    return metricUpdater;
   }
 
   @Override

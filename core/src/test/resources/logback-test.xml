@@ -25,4 +25,5 @@
         <appender-ref ref="STDOUT"/>
     </root>
     <logger name="com.datastax.oss.driver" level= "${driverLevel:-WARN}"/>
+    <logger name="Tmp" level= "DEBUG"/>
 </configuration>

@@ -4,6 +4,7 @@
 
 ### 4.0.0-alpha3 (in progress)
 
+- [bug] JAVA-1727: Add equals method to UDTValue
 - [improvement] JAVA-1720: Merge Cluster and Session into a single interface
 - [improvement] JAVA-1713: Use less nodes in DefaultLoadBalancingPolicyIT
 - [improvement] JAVA-1707: Add test infrastructure for running DSE clusters with CCM

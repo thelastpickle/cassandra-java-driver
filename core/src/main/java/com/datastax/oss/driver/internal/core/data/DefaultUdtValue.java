@@ -20,6 +20,7 @@ import com.datastax.oss.driver.api.core.ProtocolVersion;
 import com.datastax.oss.driver.api.core.data.UdtValue;
 import com.datastax.oss.driver.api.core.type.DataType;
 import com.datastax.oss.driver.api.core.type.UserDefinedType;
+import com.datastax.oss.driver.api.core.type.codec.TypeCodec;
 import com.datastax.oss.driver.api.core.type.codec.registry.CodecRegistry;
 import com.datastax.oss.protocol.internal.util.Bytes;
 import com.google.common.base.Preconditions;
@@ -89,6 +90,39 @@ public class DefaultUdtValue implements UdtValue {
   @Override
   public ProtocolVersion protocolVersion() {
     return type.getAttachmentPoint().protocolVersion();
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (!(o instanceof DefaultUdtValue)) return false;
+
+    DefaultUdtValue that = (DefaultUdtValue) o;
+    if (!type.equals(that.type)) return false;
+
+    if (size() != that.size()) return false;
+    if (size() > 0) {
+      for (int i = 0; i < size(); i++) {
+        if (this.getBytesUnsafe(i) == null || that.getBytesUnsafe(i) == null) {
+          if (this.getBytesUnsafe(i) != that.getBytesUnsafe(i)) {
+            return false;
+          }
+        } else if (!getBytesUnsafe(i).equals(that.getBytesUnsafe(i))) return false;
+      }
+    }
+    return true;
+  }
+
+  @Override
+  public int hashCode() {
+    return super.hashCode();
+  }
+
+  @Override
+  public String toString() {
+    StringBuilder sb = new StringBuilder();
+    TypeCodec<Object> codec = this.codecRegistry().codecFor(type);
+    sb.append(codec.format(this));
+    return sb.toString();
   }
 
   /**

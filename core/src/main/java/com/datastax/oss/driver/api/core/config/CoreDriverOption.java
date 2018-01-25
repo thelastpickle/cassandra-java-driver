@@ -110,6 +110,9 @@ public enum CoreDriverOption implements DriverOption {
 
   METRICS_SESSION_ENABLED("metrics.session.enabled", false),
   METRICS_NODE_ENABLED("metrics.node.enabled", false),
+  METRICS_SESSION_CQL_REQUESTS_HIGHEST("metrics.session.cql_requests.highest_latency", false),
+  METRICS_SESSION_CQL_REQUESTS_DIGITS("metrics.session.cql_requests.significant_digits", false),
+  METRICS_SESSION_CQL_REQUESTS_INTERVAL("metrics.session.cql_requests.refresh_interval", false),
 
   NETTY_IO_SIZE("netty.io-group.size", false),
   NETTY_IO_SHUTDOWN_QUIET_PERIOD("netty.io-group.shutdown.quiet-period", false),

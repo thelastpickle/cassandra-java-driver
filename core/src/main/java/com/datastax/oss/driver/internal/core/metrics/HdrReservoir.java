@@ -50,7 +50,8 @@ public class HdrReservoir implements Reservoir {
   private final long refreshIntervalNanos;
 
   // The lock only orchestrates `getSnapshot()` calls; `update()` is fed directly to the recorder,
-  // which is lock-free. Read operations are comparatively rare, so locking is not a bottleneck.
+  // which is lock-free. `getSnapshot()` calls are comparatively rare, so locking is not a
+  // bottleneck.
   private final ReadWriteLock cacheLock = new ReentrantReadWriteLock();
   private Histogram cachedHistogram; // Guarded by cacheLock
   private long cachedHistogramTimestampNanos; // Guarded by cacheLock

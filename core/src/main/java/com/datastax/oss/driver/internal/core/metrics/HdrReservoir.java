@@ -95,7 +95,7 @@ public class HdrReservoir implements Reservoir {
 
     cacheLock.readLock().lock();
     try {
-      if (now < cachedHistogramTimestampNanos + refreshIntervalNanos) {
+      if (now - cachedHistogramTimestampNanos < refreshIntervalNanos) {
         return cachedSnapshot;
       }
     } finally {
@@ -105,7 +105,7 @@ public class HdrReservoir implements Reservoir {
     cacheLock.writeLock().lock();
     try {
       // Might have raced with another writer => re-check the timestamp
-      if (now >= cachedHistogramTimestampNanos + refreshIntervalNanos) {
+      if (now - cachedHistogramTimestampNanos >= refreshIntervalNanos) {
         LOG.debug("Cached snapshot is too old, refreshing");
         cachedHistogram = recorder.getIntervalHistogram(cachedHistogram);
         cachedSnapshot = new HdrSnapshot(cachedHistogram);

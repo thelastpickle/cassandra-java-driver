@@ -21,6 +21,9 @@ import com.datastax.oss.driver.api.core.cql.Statement;
 
 public enum CoreSessionMetric implements SessionMetric {
 
+  // Implementation note: this enum deliberately breaks the convention of upper-case constant names,
+  // because these names are used directly as metric names.
+
   /**
    * The throughput and latency percentiles of CQL requests (exposed as a {@link Timer}).
    *

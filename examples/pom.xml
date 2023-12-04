@@ -22,7 +22,7 @@
 
   <parent>
     <artifactId>java-driver-parent</artifactId>
-    <groupId>com.datastax.oss</groupId>
+    <groupId>org.apache.cassandra</groupId>
     <version>4.1.0</version>
   </parent>
 

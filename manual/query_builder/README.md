@@ -31,7 +31,7 @@ To use it in your application, add the following dependency:
 
 ```xml
 <dependency>
-  <groupId>com.datastax.oss</groupId>
+  <groupId>org.apache.cassandra</groupId>
   <artifactId>java-driver-query-builder</artifactId>
   <version>4.1.0</version>
 </dependency>

@@ -29,7 +29,7 @@ package name:
 
 ```xml
 <dependency>
-  <groupId>com.datastax.oss</groupId>
+  <groupId>org.apache.cassandra</groupId>
   <artifactId>java-driver-core-shaded</artifactId>
   <version>4.1.0</version>
 </dependency>
@@ -40,17 +40,17 @@ dependency to the non-shaded JAR:
 
 ```xml
 <dependency>
-  <groupId>com.datastax.oss</groupId>
+  <groupId>org.apache.cassandra</groupId>
   <artifactId>java-driver-core-shaded</artifactId>
   <version>4.1.0</version>
 </dependency>
 <dependency>
-  <groupId>com.datastax.oss</groupId>
+  <groupId>org.apache.cassandra</groupId>
   <artifactId>java-driver-query-builder</artifactId>
   <version>4.1.0</version>
   <exclusions>
     <exclusion>
-      <groupId>com.datastax.oss</groupId>
+      <groupId>org.apache.cassandra</groupId>
       <artifactId>java-driver-core</artifactId>
     </exclusion>
   </exclusions>

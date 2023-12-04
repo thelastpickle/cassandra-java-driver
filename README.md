@@ -1,4 +1,8 @@
-# Apache Cassandra® Java Driver
+# Java Driver for Apache Cassandra®
+
+:warning: The java-driver has recently been donated by Datastax to The Apache Software Foundation and the Apache Cassandra project.  Bear with us as we move assets and coordinates.
+
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.datastax.oss/java-driver-core/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.datastax.oss/java-driver-core)
 
 *If you're reading this on github.com, please note that this is the readme for the development 
 version and that some features described here might not yet have been released. You can find the
@@ -11,7 +15,6 @@ Language v3.
 
 [DataStax Docs]: http://docs.datastax.com/en/developer/java-driver/
 [Apache Cassandra®]: http://cassandra.apache.org/
-[DataStax Enterprise]: http://www.datastax.com/products/datastax-enterprise
 
 ## Getting the driver
 
@@ -20,15 +23,15 @@ are multiple modules, all prefixed with `java-driver-`.
 
 ```xml
 <dependency>
-  <groupId>com.datastax.oss</groupId>
+  <groupId>org.apache.cassandra</groupId>
   <artifactId>java-driver-core</artifactId>
-  <version>4.1.0</version>
+  <version>${driver.version}</version>
 </dependency>
 
 <dependency>
-  <groupId>com.datastax.oss</groupId>
+  <groupId>org.apache.cassandra</groupId>
   <artifactId>java-driver-query-builder</artifactId>
-  <version>4.1.0</version>
+  <version>${driver.version}</version>
 </dependency>
 ```
 
@@ -53,16 +56,12 @@ See the [upgrade guide](upgrade_guide/) for details.
 * [API docs]
 * Bug tracking: [JIRA]
 * [Mailing list]
-* Twitter: [@dsJavaDriver] tweets Java Driver releases and important announcements (low frequency).
-    [@DataStaxEng] has more news, including other drivers, Cassandra, and DSE.
 * [Changelog]
 * [FAQ]
 
 [API docs]: http://www.datastax.com/drivers/java/4.0
 [JIRA]: https://datastax-oss.atlassian.net/browse/JAVA
 [Mailing list]: https://groups.google.com/a/lists.datastax.com/forum/#!forum/java-driver-user
-[@dsJavaDriver]: https://twitter.com/dsJavaDriver
-[@DataStaxEng]: https://twitter.com/datastaxeng
 [Changelog]: changelog/
 [FAQ]: faq/
 
@@ -89,3 +88,5 @@ limitations under the License.
 Apache Cassandra, Apache, Tomcat, Lucene, Solr, Hadoop, Spark, TinkerPop, and Cassandra are 
 trademarks of the [Apache Software Foundation](http://www.apache.org/) or its subsidiaries in
 Canada, the United States and/or other countries. 
+
+Binary artifacts of this product bundle Java Native Runtime libraries, which is available under the Eclipse Public License version 2.0.

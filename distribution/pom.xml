@@ -67,7 +67,7 @@
     </dependency>
   </dependencies>
   <build>
-    <finalName>datastax-java-driver-${project.version}</finalName>
+    <finalName>apache-cassandra-java-driver-${project.version}</finalName>
     <plugins>
       <plugin>
         <artifactId>maven-jar-plugin</artifactId>

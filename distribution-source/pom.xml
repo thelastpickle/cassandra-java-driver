@@ -29,7 +29,7 @@
   <packaging>pom</packaging>
   <name>Apache Cassandra Java Driver - source distribution</name>
   <build>
-    <finalName>datastax-java-driver-${project.version}-source</finalName>
+    <finalName>apache-cassandra-java-driver-${project.version}-source</finalName>
     <plugins>
       <plugin>
         <artifactId>maven-jar-plugin</artifactId>

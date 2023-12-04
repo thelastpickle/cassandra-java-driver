@@ -23,19 +23,19 @@ are multiple modules, all prefixed with `java-driver-`.
 
 ```xml
 <dependency>
-  <groupId>com.datastax.oss</groupId>
+  <groupId>org.apache.cassandra</groupId>
   <artifactId>java-driver-core</artifactId>
   <version>${driver.version}</version>
 </dependency>
 
 <dependency>
-  <groupId>com.datastax.oss</groupId>
+  <groupId>org.apache.cassandra</groupId>
   <artifactId>java-driver-query-builder</artifactId>
   <version>${driver.version}</version>
 </dependency>
 
 <dependency>
-  <groupId>com.datastax.oss</groupId>
+  <groupId>org.apache.cassandra</groupId>
   <artifactId>java-driver-mapper-runtime</artifactId>
   <version>${driver.version}</version>
 </dependency>

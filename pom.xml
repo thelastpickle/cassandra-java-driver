@@ -759,9 +759,6 @@ limitations under the License.]]></inlineHeader>
               <goal>jar-no-fork</goal>
             </goals>
             <configuration>
-              <includes>
-                <include>NOTICE.txt</include>
-              </includes>
               <excludes>
                 <exclude>NOTICE_binary.txt</exclude>
               </excludes>

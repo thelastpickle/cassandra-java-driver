@@ -152,6 +152,26 @@
                       <artifactId>tinkergraph-gremlin</artifactId>
                       <version>${tinkerpop.version}</version>
                     </additionalDependency>
+                    <additionalDependency>
+                      <groupId>com.esri.geometry</groupId>
+                      <artifactId>esri-geometry-api</artifactId>
+                      <version>${esri.version}</version>
+                    </additionalDependency>
+                    <additionalDependency>
+                      <groupId>org.javatuples</groupId>
+                      <artifactId>javatuples</artifactId>
+                      <version>1.2</version>
+                    </additionalDependency>
+                    <additionalDependency>
+                      <groupId>com.github.spotbugs</groupId>
+                      <artifactId>spotbugs-annotations</artifactId>
+                      <version>3.1.12</version>
+                    </additionalDependency>
+                    <additionalDependency>
+                      <groupId>com.github.stephenc.jcip</groupId>
+                      <artifactId>jcip-annotations</artifactId>
+                      <version>1.0-1</version>
+                    </additionalDependency>
                   </additionalDependencies>
                 </configuration>
               </execution>

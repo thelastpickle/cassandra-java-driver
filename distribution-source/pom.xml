@@ -99,6 +99,25 @@
               <tarLongFileMode>posix</tarLongFileMode>
             </configuration>
           </plugin>
+          <plugin>
+            <groupId>net.nicoulaj.maven.plugins</groupId>
+            <artifactId>checksum-maven-plugin</artifactId>
+            <version>1.7</version>
+            <executions>
+              <execution>
+                <goals>
+                  <goal>artifacts</goal>
+                </goals>
+              </execution>
+            </executions>
+            <configuration>
+              <attachChecksums>true</attachChecksums>
+              <algorithms>
+                <algorithm>sha256</algorithm>
+                <algorithm>sha512</algorithm>
+              </algorithms>
+            </configuration>
+          </plugin>
         </plugins>
       </build>
     </profile>

@@ -29,7 +29,7 @@ package name:
 
 ```xml
 <dependency>
-  <groupId>com.datastax.cassandra</groupId>
+  <groupId>org.apache.cassandra</groupId>
   <artifactId>cassandra-driver-core</artifactId>
   <version>3.11.5</version>
   <classifier>shaded</classifier>
@@ -53,7 +53,7 @@ non-shaded JAR:
 
 ```xml
 <dependency>
-  <groupId>com.datastax.cassandra</groupId>
+  <groupId>org.apache.cassandra</groupId>
   <artifactId>cassandra-driver-core</artifactId>
   <version>3.11.5</version>
   <classifier>shaded</classifier>
@@ -69,12 +69,12 @@ non-shaded JAR:
   </exclusions>
 </dependency>
 <dependency>
-  <groupId>com.datastax.cassandra</groupId>
+  <groupId>org.apache.cassandra</groupId>
   <artifactId>cassandra-driver-mapping</artifactId>
   <version>3.11.5</version>
   <exclusions>
     <exclusion>
-      <groupId>com.datastax.cassandra</groupId>
+      <groupId>org.apache.cassandra</groupId>
       <artifactId>cassandra-driver-core</artifactId>
     </exclusion>
   </exclusions>

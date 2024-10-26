@@ -25,7 +25,7 @@
         <artifactId>apache</artifactId>
         <version>23</version>
     </parent>
-    <groupId>com.datastax.cassandra</groupId>
+    <groupId>org.apache.cassandra</groupId>
     <artifactId>cassandra-driver-parent</artifactId>
     <version>3.11.6-SNAPSHOT</version>
     <packaging>pom</packaging>
@@ -35,7 +35,7 @@
         (CQL3) and Cassandra's binary protocol.
     </description>
 
-    <url>https://github.com/datastax/java-driver</url>
+    <url>https://github.com/apache/cassandra-java-driver</url>
 
     <inceptionYear>2012</inceptionYear>
 
@@ -45,6 +45,7 @@
         <module>driver-extras</module>
         <module>driver-examples</module>
         <module>driver-tests</module>
+        <module>driver-dist-source</module>
         <module>driver-dist</module>
     </modules>
 
@@ -101,33 +102,33 @@
         <dependencies>
 
             <dependency>
-                <groupId>com.datastax.cassandra</groupId>
+                <groupId>org.apache.cassandra</groupId>
                 <artifactId>cassandra-driver-core</artifactId>
                 <version>${project.parent.version}</version>
             </dependency>
 
             <dependency>
-                <groupId>com.datastax.cassandra</groupId>
+                <groupId>org.apache.cassandra</groupId>
                 <artifactId>cassandra-driver-core</artifactId>
                 <version>${project.parent.version}</version>
                 <classifier>shaded</classifier>
             </dependency>
 
             <dependency>
-                <groupId>com.datastax.cassandra</groupId>
+                <groupId>org.apache.cassandra</groupId>
                 <artifactId>cassandra-driver-core</artifactId>
                 <version>${project.parent.version}</version>
                 <type>test-jar</type>
             </dependency>
 
             <dependency>
-                <groupId>com.datastax.cassandra</groupId>
+                <groupId>org.apache.cassandra</groupId>
                 <artifactId>cassandra-driver-mapping</artifactId>
                 <version>${project.parent.version}</version>
             </dependency>
 
             <dependency>
-                <groupId>com.datastax.cassandra</groupId>
+                <groupId>org.apache.cassandra</groupId>
                 <artifactId>cassandra-driver-extras</artifactId>
                 <version>${project.parent.version}</version>
             </dependency>
@@ -510,77 +511,6 @@
                                     <exclude>NOTICE_binary.txt</exclude>
                                 </excludes>
                             </configuration>
-                        </execution>
-                    </executions>
-                </plugin>
-
-                <plugin>
-                    <artifactId>maven-javadoc-plugin</artifactId>
-                    <version>2.10.4</version>
-                    <inherited>true</inherited>
-                    <configuration>
-                        <quiet>true</quiet>
-                        <verbose>false</verbose>
-                        <additionalparam>${javadoc.opts}</additionalparam>
-                        <links>
-                            <link>https://docs.oracle.com/javase/8/docs/api/</link>
-                            <link>https://google.github.io/guava/releases/19.0/api/docs/</link>
-                            <link>http://netty.io/4.0/api/</link>
-                            <link>http://www.joda.org/joda-time/apidocs/</link>
-                            <link>http://fasterxml.github.io/jackson-core/javadoc/2.8/</link>
-                            <link>http://fasterxml.github.io/jackson-databind/javadoc/2.7/</link>
-                            <link>https://javaee-spec.java.net/nonav/javadocs/</link>
-                        </links>
-                        <!-- optional dependencies from other modules (must be explicitly declared here in order to be correctly resolved) -->
-                        <additionalDependencies>
-                            <additionalDependency>
-                                <groupId>org.xerial.snappy</groupId>
-                                <artifactId>snappy-java</artifactId>
-                                <version>${snappy.version}</version>
-                            </additionalDependency>
-                            <additionalDependency>
-                                <groupId>org.lz4</groupId>
-                                <artifactId>lz4-java</artifactId>
-                                <version>${lz4.version}</version>
-                            </additionalDependency>
-                            <additionalDependency>
-                                <groupId>org.hdrhistogram</groupId>
-                                <artifactId>HdrHistogram</artifactId>
-                                <version>${hdr.version}</version>
-                            </additionalDependency>
-                            <additionalDependency>
-                                <groupId>com.fasterxml.jackson.core</groupId>
-                                <artifactId>jackson-core</artifactId>
-                                <version>${jackson.version}</version>
-                            </additionalDependency>
-                            <additionalDependency>
-                                <groupId>com.fasterxml.jackson.core</groupId>
-                                <artifactId>jackson-annotations</artifactId>
-                                <version>${jackson.version}</version>
-                            </additionalDependency>
-                            <additionalDependency>
-                                <groupId>com.fasterxml.jackson.core</groupId>
-                                <artifactId>jackson-databind</artifactId>
-                                <version>${jackson-databind.version}</version>
-                            </additionalDependency>
-                            <additionalDependency>
-                                <groupId>joda-time</groupId>
-                                <artifactId>joda-time</artifactId>
-                                <version>${joda.version}</version>
-                            </additionalDependency>
-                            <additionalDependency>
-                                <groupId>javax.json</groupId>
-                                <artifactId>javax.json-api</artifactId>
-                                <version>${jsr353-api.version}</version>
-                            </additionalDependency>
-                        </additionalDependencies>
-                    </configuration>
-                    <executions>
-                        <execution>
-                            <id>attach-javadocs</id>
-                            <goals>
-                                <goal>jar</goal>
-                            </goals>
                         </execution>
                     </executions>
                 </plugin>
@@ -1054,17 +984,6 @@ limitations under the License.
                         </executions>
                     </plugin>
                     <plugin>
-                        <artifactId>maven-javadoc-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <id>attach-javadocs</id>
-                                <goals>
-                                    <goal>jar</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                    <plugin>
                         <artifactId>maven-gpg-plugin</artifactId>
                         <executions>
                             <execution>
@@ -1176,13 +1095,6 @@ limitations under the License.
         </profile>
     </profiles>
 
-    <distributionManagement>
-        <repository>
-            <id>ossrh</id>
-            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
-        </repository>
-    </distributionManagement>
-
     <licenses>
         <license>
             <name>Apache 2</name>
@@ -1195,7 +1107,7 @@ limitations under the License.
     <scm>
         <connection>scm:git:git@github.com:datastax/java-driver.git</connection>
         <developerConnection>scm:git:git@github.com:datastax/java-driver.git</developerConnection>
-        <url>https://github.com/datastax/java-driver</url>
+        <url>https://github.com/apache/cassandra-java-driver</url>
         <tag>HEAD</tag>
     </scm>
 

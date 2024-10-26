@@ -22,7 +22,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>com.datastax.cassandra</groupId>
+        <groupId>org.apache.cassandra</groupId>
         <artifactId>cassandra-driver-parent</artifactId>
         <version>3.11.6-SNAPSHOT</version>
     </parent>
@@ -179,8 +179,10 @@
             <resource>
                 <directory>${project.basedir}/..</directory>
                 <includes>
+                    <include>LICENSE_binary</include>
                     <include>LICENSE</include>
                     <include>NOTICE_binary.txt</include>
+                    <include>NOTICE.txt</include>
                 </includes>
                 <targetPath>META-INF</targetPath>
             </resource>

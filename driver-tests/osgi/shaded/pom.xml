@@ -22,7 +22,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>com.datastax.cassandra</groupId>
+        <groupId>org.apache.cassandra</groupId>
         <artifactId>cassandra-driver-tests-osgi</artifactId>
         <version>3.11.6-SNAPSHOT</version>
     </parent>
@@ -33,7 +33,7 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.datastax.cassandra</groupId>
+            <groupId>org.apache.cassandra</groupId>
             <artifactId>cassandra-driver-core</artifactId>
             <!-- note we're depending on the *shaded* driver-core jar -->
             <classifier>shaded</classifier>

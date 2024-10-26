@@ -22,7 +22,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>com.datastax.cassandra</groupId>
+        <groupId>org.apache.cassandra</groupId>
         <artifactId>cassandra-driver-parent</artifactId>
         <version>3.11.6-SNAPSHOT</version>
     </parent>
@@ -36,17 +36,17 @@
     <dependencies>
 
         <dependency>
-            <groupId>com.datastax.cassandra</groupId>
+            <groupId>org.apache.cassandra</groupId>
             <artifactId>cassandra-driver-core</artifactId>
         </dependency>
 
         <dependency>
-            <groupId>com.datastax.cassandra</groupId>
+            <groupId>org.apache.cassandra</groupId>
             <artifactId>cassandra-driver-mapping</artifactId>
         </dependency>
 
         <dependency>
-            <groupId>com.datastax.cassandra</groupId>
+            <groupId>org.apache.cassandra</groupId>
             <artifactId>cassandra-driver-extras</artifactId>
         </dependency>
 
@@ -54,7 +54,7 @@
 
     <build>
 
-        <finalName>cassandra-java-driver-${project.version}</finalName>
+        <finalName>apache-cassandra-java-driver-${project.version}</finalName>
 
         <plugins>
 
@@ -101,21 +101,6 @@
             <build>
                 <plugins>
                     <plugin>
-                        <artifactId>maven-javadoc-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <id>dependencies-javadoc</id>
-                                <phase>package</phase>
-                                <goals>
-                                    <goal>jar</goal>
-                                </goals>
-                                <configuration>
-                                    <includeDependencySources>true</includeDependencySources>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-                    <plugin>
                         <artifactId>maven-assembly-plugin</artifactId>
                         <executions>
                             <execution>
@@ -140,6 +125,25 @@
                         <configuration>
                             <skipNexusStagingDeployMojo>true</skipNexusStagingDeployMojo>
                         </configuration>
+                    </plugin>
+                    <plugin>
+                      <groupId>net.nicoulaj.maven.plugins</groupId>
+                      <artifactId>checksum-maven-plugin</artifactId>
+                      <version>1.7</version>
+                      <executions>
+                        <execution>
+                          <goals>
+                            <goal>artifacts</goal>
+                          </goals>
+                        </execution>
+                      </executions>
+                      <configuration>
+                        <attachChecksums>true</attachChecksums>
+                        <algorithms>
+                          <algorithm>sha256</algorithm>
+                          <algorithm>sha512</algorithm>
+                        </algorithms>
+                      </configuration>
                     </plugin>
                 </plugins>
             </build>

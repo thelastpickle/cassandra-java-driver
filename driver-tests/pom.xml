@@ -22,7 +22,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>com.datastax.cassandra</groupId>
+        <groupId>org.apache.cassandra</groupId>
         <artifactId>cassandra-driver-parent</artifactId>
         <version>3.11.6-SNAPSHOT</version>
     </parent>
@@ -54,13 +54,6 @@
                 <artifactId>maven-source-plugin</artifactId>
                 <configuration>
                     <skipSource>true</skipSource>
-                </configuration>
-            </plugin>
-
-            <plugin>
-                <artifactId>maven-javadoc-plugin</artifactId>
-                <configuration>
-                    <skip>true</skip>
                 </configuration>
             </plugin>
 

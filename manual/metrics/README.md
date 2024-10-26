@@ -55,7 +55,7 @@ To do this in a maven project:
 
 ```xml
 <dependency>
-  <groupId>com.datastax.cassandra</groupId>
+  <groupId>org.apache.cassandra</groupId>
   <artifactId>cassandra-driver-core</artifactId>
   <version>3.11.5</version>
   <exclusions>
